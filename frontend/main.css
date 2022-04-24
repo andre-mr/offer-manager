@@ -1,0 +1,53 @@
+@media (min-aspect-ratio: 9/10) {
+  .bs-bars {
+    width: 50%;
+  }
+
+  #inputLoginPassword {
+    width: 25%;
+  }
+}
+
+@media (max-aspect-ratio: 9/10) {
+  .bs-bars {
+    width: 20%;
+  }
+
+  #inputLoginPassword {
+    width: 50%;
+  }
+}
+
+textarea {
+  resize: none;
+}
+
+input::-webkit-calendar-picker-indicator {
+  display: none !important;
+}
+
+#offerFormStatus option {
+  text-align: left;
+}
+
+td {
+  cursor: pointer;
+}
+
+html {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  height: 100%;
+  width: 100%;
+}
+
+.modal-header {
+  margin: 0px;
+}
+
+.search {
+  margin-right: 5%;
+}

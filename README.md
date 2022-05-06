@@ -32,7 +32,7 @@ These are basic usage information.
 * A basic data list is sent from database.
 * User can work with data populated to table, with many filters and ordering options.
 * User can add new offer using a button that opens a popup window.
-* User can edit offers already stored by clicking on them, editing and saving changes.
+* User can edit offers already stored by clicking on them and saving changes.
 * Every time user edit and save an offer, its utilization time is changed and content text is copied to clipboard, to use with external publish software.
 * Default sort order is by utilization date from older to most recent, because the point is priority to older offers.
 
@@ -43,7 +43,7 @@ The backend is served by Node version 16, structured in layers, currently servin
 #### :man_technologist:	Bootstrap
 The direct use is minimal, just because the page is mainly dinamically filled by Bootstrap Table with their own style options.
 #### :iphone: Responsiveness
-It's intended to be used exclusively as a datasheet with a desktop computer, but can be used with Android devices.
+It's intended to be used with a desktop computer, but can be used with Android devices.
 #### :earth_americas:	Language
 User interface is all in Brazilian Portuguese. On the other hand, all code is in English.
 #### 🔒:	Sensitive data
@@ -51,4 +51,4 @@ All sensitive data is stored in server only, mainly as environment variables, in
 
 <!-- FINAL CONSIDERATIONS -->
 ## Final considerations
-This project was released to end-user in April/2022.
+This project was released to end-user in april/2022.

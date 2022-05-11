@@ -49,6 +49,8 @@ let apiKeyStored = false;
 let selectedOffer;
 let storeList = [];
 let removingOffer = 0;
+let generalColumnAlign = "center";
+let cardViewStatus = false;
 
 window.addEventListener("load", () => {
   startup();
@@ -277,9 +279,16 @@ function populateTable() {
           populateTable();
         });
 
-        $("#contentTable").on("toggle.bs.table", function (e) {
+        $("button[name=toggle]").on('click', () => {
+          if (generalColumnAlign === "center") {
+            generalColumnAlign = "left"
+          } else {
+            generalColumnAlign = "center"
+          }
+          cardViewStatus = !cardViewStatus;
+          populateTable();
           fixFooter();
-        });
+        })
 
         $('span:contains("Toggle all")').text("Todas");
 
@@ -599,7 +608,7 @@ function createContentTable() {
       toolbar: "#toolbar",
       pagination: true,
       pageList: "[10, 100, 1000, all]",
-      pageSize: 100,
+      pageSize: 10,
       formatClearSearch: function () {
         return "Remove a senha salva e volta para a tela inicial";
       },
@@ -648,13 +657,14 @@ function createContentTable() {
       showRefresh: true,
       showSearchClearButton: true,
       height: tableHeight,
+      cardView: cardViewStatus,
       classes: "table table-hover table-bordered table-striped ",
       columns: [
         {
           field: "id",
           title: "Id",
           width: 10,
-          align: "center",
+          align: generalColumnAlign,
           sortable: "true",
           filterControl: "input",
           switchable: true,
@@ -715,7 +725,7 @@ function createContentTable() {
           field: "creation",
           title: "Criação",
           width: 10,
-          align: "center",
+          align: generalColumnAlign,
           sortable: "true",
           sorter: "dateSorter",
           filterControl: "input",
@@ -725,7 +735,7 @@ function createContentTable() {
           field: "utilization",
           title: "Utilização",
           width: 10,
-          align: "center",
+          align: generalColumnAlign,
           sortable: "true",
           sorter: "dateSorter",
           filterControl: "input",
@@ -736,7 +746,7 @@ function createContentTable() {
           field: "uses",
           title: "Alterações",
           width: 10,
-          align: "center",
+          align: generalColumnAlign,
           sortable: "true",
           filterControl: "input",
           visible: checkedColumns.uses,

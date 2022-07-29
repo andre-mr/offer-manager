@@ -1,4 +1,3 @@
-// import offerController from '../controllers/offer-controller.js';
 const offerController = require("../controllers/offer-controller.js");
 
 function setupRoutes(app) {
@@ -38,9 +37,6 @@ function setupRoutes(app) {
   });
 }
 
-// export default {
-//   setupRoutes
-// }
 module.exports = {
   setupRoutes,
 };

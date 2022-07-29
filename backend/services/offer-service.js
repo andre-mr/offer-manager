@@ -1,4 +1,3 @@
-// import offerDb from "../database/offer-db.js";
 const offerDb = require("../database/offer-db.js");
 
 async function getAllOfferList() {
@@ -41,9 +40,6 @@ async function deleteOffer(offer) {
   }
 }
 
-// export default {
-//   getAllOfferList, getActiveOfferList, addOffer, updateOffer, deleteOffer
-// }
 module.exports = {
   getAllOfferList,
   getActiveOfferList,

@@ -1,4 +1,3 @@
-// import mysql from 'mysql2/promise.js';
 const mysql = require("mysql2/promise.js");
 
 async function getAllOfferList() {
@@ -48,13 +47,13 @@ async function updateOffer(offer) {
     offer.uses,
     offer.id,
   ];
-  return await sqlUpdate(sql, values);
+  return await sqlUpdateOrDelete(sql, values);
 }
 
 async function deleteOffer(offer) {
   let sql = `DELETE FROM offer WHERE id=? `;
   let values = [offer.id];
-  return await sqlUpdate(sql, values);
+  return await sqlUpdateOrDelete(sql, values);
 }
 
 async function sqlSelect(selectStatement) {
@@ -82,20 +81,17 @@ async function sqlInsert(insertStatement, values) {
     database: process.env.DB_DATABASE,
   });
 
-  let result = await connection.query(
-    insertStatement,
-    [values],
-    function (err) {
-      if (err) throw err;
-      connection.end();
-      return false;
-    }
+  await connection.query(insertStatement, [values], (err) => {
+    if (err) throw err;
+    connection.end();
+    return false;
+  }
   );
   connection.end();
   return true;
 }
 
-async function sqlUpdate(updateStatement, values) {
+async function sqlUpdateOrDelete(updateStatement, values) {
   const connection = await mysql.createConnection({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
@@ -103,37 +99,16 @@ async function sqlUpdate(updateStatement, values) {
     database: process.env.DB_DATABASE,
   });
 
-  let result = await connection.query(updateStatement, values, function (err) {
+  await connection.query(updateStatement, values, function (err) {
     if (err) {
       connection.end();
       throw err;
-      // return false;
     }
   });
   connection.end();
   return true;
 }
 
-async function sqlDelete(deleteStatement, values) {
-  const connection = await mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_DATABASE,
-  });
-
-  let result = await connection.query(deleteStatement, values, function (err) {
-    if (err) {
-      connection.end();
-      throw err;
-      // return false;
-    }
-  });
-  connection.end();
-  return true;
-}
-
-// export default { getAllOfferList, getActiveOfferList, addOffer, updateOffer, deleteOffer };
 module.exports = {
   getAllOfferList,
   getActiveOfferList,

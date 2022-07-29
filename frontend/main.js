@@ -430,7 +430,7 @@ function showOfferForm(offer) {
   } else {
     selectedOffer = new Offer();
     selectedOffer.active = true;
-    selectedOffer.uses = 1;
+    selectedOffer.uses = 0;
     alertModalLabel.innerHTML = "Nova Promoção";
     alertModalLabel.className = alertModalLabel.className.replace(
       "text-danger",

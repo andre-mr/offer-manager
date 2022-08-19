@@ -10,6 +10,11 @@ async function getActiveOfferList(req, res) {
   sendResponse(result, res);
 }
 
+async function getOfferImage(req, res) {
+  let result = await offerService.getOfferImage(req.query.id);
+  sendResponse(result, res);
+}
+
 async function addOffer(req, res) {
   let result = await offerService.addOffer(req.body);
   sendResponse(result, res);
@@ -45,4 +50,5 @@ module.exports = {
   addOffer,
   updateOffer,
   deleteOffer,
+  getOfferImage,
 };

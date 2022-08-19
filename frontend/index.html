@@ -1,296 +1,190 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Gerenciamento de Promoções</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="shortcut icon" href="logo.ico" />
 
-    <!-- required for button icons -->
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-      crossorigin="anonymous"
-    />
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Gerenciamento de Promoções</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="shortcut icon" href="logo.ico" />
 
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
-      crossorigin="anonymous"
-    />
-    <link
-      rel="stylesheet"
-      href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
-      integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
-      crossorigin="anonymous"
-    />
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.css"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="extensions/filter-control/bootstrap-table-filter-control.min.css"
-    />
+  <!-- required for button icons -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
 
-    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
-  </head>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+    integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.css" />
+  <link rel="stylesheet" type="text/css" href="extensions/filter-control/bootstrap-table-filter-control.min.css" />
 
-  <body>
-    <div id="screenContainer" class="p-1 visually-hidden">
-      <div id="toolbar" class="text-left d-flex justify-content-between w-100">
-        <button
-          id="addOfferButton"
-          class="btn btn-primary font-weight-bold mr-5"
-          title="Adiciona uma nova promoção"
-        >
-          ADICIONAR
-        </button>
-      </div>
-      <table id="contentTable"></table>
-    </div>
+  <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+</head>
 
-    <div
-      class="d-none flex-column my-auto pt-5 mt-5 align-items-center w-100 h-75"
-      id="loginArea"
-    >
-      <h3
-        class="d-flex justify-content-center shadow-text pt-5 mt-5 fw-bold text-primary"
-        id="loginText"
-      >
-        Senha
-      </h3>
-      <input
-        id="inputLoginPassword"
-        type="password"
-        value=""
-        autocomplete="off"
-        class="rounded p-1 mt-4 mb-3 text-center fw-bold fs-3"
-      />
-      <div
-        class="form-check align-self-center d-flex align-items-center justify-content-between"
-      >
-        <input
-          id="loginTrustedSwitch"
-          class="form-check-input align-self-stretch"
-          type="checkbox"
-        />
-        <label
-          class="form-check-label align-self-stretch mb-4"
-          for="loginTrustedSwitch"
-          >Salvar senha</label
-        >
-      </div>
-      <button id="loginButton" class="btn btn-success font-weight-bold">
-        ENTRAR
+<body>
+  <div id="screenContainer" class="p-1 visually-hidden">
+    <div id="toolbar" class="text-left d-flex justify-content-between w-100">
+      <button id="addOfferButton" class="btn btn-primary font-weight-bold mr-5" title="Adiciona uma nova promoção">
+        ADICIONAR
       </button>
     </div>
+    <table id="contentTable"></table>
+  </div>
 
-    <!-- Modal -->
-    <div
-      class="modal fade"
-      id="alertModal"
-      tabindex="-1"
-      data-bs-backdrop="static"
-      aria-labelledby="alertModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content">
-          <div
-            class="modal-header row pt-2 pl-2 pr-0 justify-content-between w-100"
-          >
-            <div class="col-5">
-              <h5
-                class="modal-title font-weight-bold text-primary"
-                id="alertModalLabel"
-              >
-                Nova Promoção
-              </h5>
+  <div class="d-none flex-column my-auto pt-5 mt-5 align-items-center w-100 h-75" id="loginArea">
+    <h3 class="d-flex justify-content-center shadow-text pt-5 mt-5 fw-bold text-primary" id="loginText">
+      Senha
+    </h3>
+    <input id="inputLoginPassword" type="password" value="" autocomplete="off"
+      class="rounded p-1 mt-4 mb-3 text-center fw-bold fs-3" />
+    <div class="form-check align-self-center d-flex align-items-center justify-content-between">
+      <input id="loginTrustedSwitch" class="form-check-input align-self-stretch" type="checkbox" />
+      <label class="form-check-label align-self-stretch mb-4" for="loginTrustedSwitch">Salvar senha</label>
+    </div>
+    <button id="loginButton" class="btn btn-success font-weight-bold">
+      ENTRAR
+    </button>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="alertModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="alertModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header row pt-2 pl-2 pr-0 justify-content-between w-100">
+          <div class="col-5">
+            <h5 class="modal-title font-weight-bold text-primary" id="alertModalLabel">
+              Nova Promoção
+            </h5>
+          </div>
+          <div class="col-7 align-items-center pr-4">
+            <div class="row">
+              <div class="col-5 d-flex justify-content-end"
+                title="Se desativada permite remover ou salvar e esconder da lista">
+                <div id="offerFormActiveContainer"
+                  class="form-check align-self-center d-flex align-items-center justify-content-between visible">
+                  <input id="offerFormActiveSwitch" class="form-check-input align-self-stretch pb-1 mt-2"
+                    type="checkbox" />
+                  <label id="offerFormActiveLabel"
+                    class="form-check-label align-self-stretch font-weight-normal fs-5 text-black"
+                    for="offerFormActiveSwitch">Ativa</label>
+                </div>
+              </div>
+              <div class="col-7">
+                <div class="row justify-content-end">
+                  <button id="offerFormRemoveButton" type="button"
+                    class="btn btn-danger font-weight-bold mr-0 w-50 visible" data-bs-dismiss="modal"
+                    title="Remove a promoção definitivamente" disabled>
+                    REMOVER
+                  </button>
+                </div>
+              </div>
             </div>
-            <div class="col-7 align-items-center pr-4">
+          </div>
+        </div>
+
+        <div id="alertModalContent" class="container-fluid font-weight-normal h-50 px-4 py-3">
+          <div class="row align-items-center">
+            <p class="col-1 mr-1 px-0 my-1 text-primary">Loja</p>
+            <input id="offerFormStoreInput" list="offerFormStore" class="col form-select m-0 py-0 pl-2" name="" value=""
+              autocomplete="off" placeholder="Selecione ou informe nova" />
+            <datalist id="offerFormStore"> </datalist>
+          </div>
+
+          <div class="row align-items-center">
+            <p class="text-primary col m-0 px-0">Descrição</p>
+          </div>
+          <div class="row">
+            <textarea id="offerFormDescription" name="description" cols="" rows="2" maxlength="255" resize="none"
+              class="input-group rounded" placeholder="Descrição resumida"></textarea>
+          </div>
+          <div class="row align-items-center">
+            <p class="text-primary col m-0 px-0">Link</p>
+          </div>
+          <div class="row">
+            <textarea id="offerFormLink" name="description" cols="" rows="1" maxlength="255" resize="none"
+              class="input-group rounded" placeholder="Link do Telegram"></textarea>
+          </div>
+          <div class="row h-100">
+            <div class="col mr-1">
               <div class="row">
-                <div
-                  class="col-5 d-flex justify-content-end"
-                  title="Se desativada permite remover ou salvar e esconder da lista"
-                >
-                  <div
-                    id="offerFormActiveContainer"
-                    class="form-check align-self-center d-flex align-items-center justify-content-between visible"
-                  >
-                    <input
-                      id="offerFormActiveSwitch"
-                      class="form-check-input align-self-stretch pb-1 mt-2"
-                      type="checkbox"
-                    />
-                    <label
-                      id="offerFormActiveLabel"
-                      class="form-check-label align-self-stretch font-weight-normal fs-5 text-black"
-                      for="offerFormActiveSwitch"
-                      >Ativa</label
-                    >
-                  </div>
-                </div>
-                <div class="col-7">
-                  <div class="row justify-content-end">
-                    <button
-                      id="offerFormRemoveButton"
-                      type="button"
-                      class="btn btn-danger font-weight-bold mr-0 w-50 visible"
-                      data-bs-dismiss="modal"
-                      title="Remove a promoção definitivamente"
-                      disabled
-                    >
-                      REMOVER
-                    </button>
-                  </div>
-                </div>
+                <p class="text-primary m-0 px-0">Texto</p>
+              </div>
+              <div class="row">
+                <textarea id="offerFormContent" name="description" cols="" rows="10" class="input-group rounded"
+                  placeholder="Texto completo"></textarea>
               </div>
             </div>
-          </div>
-
-          <div
-            id="alertModalContent"
-            class="container-fluid font-weight-normal h-50 px-4 py-3"
-          >
-            <div class="row align-items-center">
-              <p class="col-1 mr-1 px-0 my-1 text-primary">Loja</p>
+            <div class="col ml-10 pr-0">
+              <div class="row">
+                <p class="text-primary mb-0">Foto</p>
+              </div>
+              <div class="d-flex mx-0 px-0" style="height: 200px; width: 100%;">
+                <a id="offerFormImageLink" href="" download="" class="image-frame d-flex w-100 h-100">
+                  <img id="offerFormImage" class="d-flex image-frame" title="Foto da Oferta" alt="Oferta sem foto"
+                    style="border-style: inset; height: 90%; width: 100%; object-fit: contain;"></img>
+                </a>
+              </div>
               <input
-                id="offerFormStoreInput"
-                list="offerFormStore"
-                class="col form-select m-0 py-0 pl-2"
-                name=""
-                value=""
-                autocomplete="off"
-                placeholder="Selecione ou informe nova"
-              />
-              <datalist id="offerFormStore"> </datalist>
-            </div>
-
-            <div class="row align-items-center">
-              <p class="text-primary col m-0 px-0">Descrição</p>
-            </div>
-            <div class="row">
-              <textarea
-                id="offerFormDescription"
-                name="description"
-                cols=""
-                rows="2"
-                maxlength="255"
-                resize="none"
-                class="input-group rounded"
-                placeholder="Descrição resumida"
-              ></textarea>
-            </div>
-            <div class="row align-items-center">
-              <p class="text-primary col m-0 px-0">Link</p>
-            </div>
-            <div class="row">
-              <textarea
-                id="offerFormLink"
-                name="description"
-                cols=""
-                rows="1"
-                maxlength="255"
-                resize="none"
-                class="input-group rounded"
-                placeholder="Link do Telegram"
-              ></textarea>
-            </div>
-            <div class="row">
-              <p class="text-primary m-0 px-0">Texto</p>
-            </div>
-            <div class="row">
-              <textarea
-                id="offerFormContent"
-                name="description"
-                cols=""
-                rows="10"
-                class="input-group rounded"
-                placeholder="Texto completo"
-              ></textarea>
-            </div>
-
-            <div class="col d-flex justify-content-center text-center">
-              <div class="col d-flex justify-content-center">
-                <div class="row d-flex justify-content-center">
-                  <p class="my-0 mx-auto text-primary text-center">Criação</p>
-                  <input
-                    id="offerFormCreation"
-                    class="row text-center"
-                    type="datetime-local"
-                    title="Data da criação"
-                    disabled
-                  />
-                </div>
-              </div>
-              <div class="col d-flex justify-content-center">
-                <div class="row d-flex justify-content-center">
-                  <p class="my-0 mx-auto text-primary text-center">
-                    Utilização
-                  </p>
-                  <input
-                    id="offerFormUtilization"
-                    class="row text-center"
-                    type="datetime-local"
-                    title="Data da última alteração"
-                    disabled
-                  />
-                </div>
-              </div>
+                class="row w-100 mx-0 text-sm rounded-lg border cursor-pointer bg-gray-100 border-gray-300 text-gray-700 py-2 px-2 mb-2 leading-tight focus:bg-white"
+                id="offerFormInputImage" type="file" accept="image/jpeg, image/png, image/webp" />
             </div>
           </div>
 
-          <div class="modal-footer w-100 justify-content-around">
-            <button
-              id="offerFormBackButton"
-              type="button"
-              class="btn btn-secondary font-weight-bold w-25"
-              data-bs-dismiss="modal"
-              title="Descarta alterações"
-            >
-              VOLTAR
-            </button>
-            <button
-              id="offerFormSaveButton"
-              type="button"
-              class="btn btn-success font-weight-bold w-25"
-              data-bs-dismiss="modal"
-              title="Salva/atualiza e copia o texto (se ativa)"
-            >
-              SALVAR
-            </button>
+          <div class="col d-flex justify-content-center text-center">
+            <div class="col d-flex justify-content-center">
+              <div class="row d-flex justify-content-center">
+                <p class="my-0 mx-auto text-primary text-center">Criação</p>
+                <input id="offerFormCreation" class="row text-center" type="datetime-local" title="Data da criação"
+                  disabled />
+              </div>
+            </div>
+            <div class="col d-flex justify-content-center">
+              <div class="row d-flex justify-content-center">
+                <p class="my-0 mx-auto text-primary text-center">
+                  Utilização
+                </p>
+                <input id="offerFormUtilization" class="row text-center" type="datetime-local"
+                  title="Data da última alteração" disabled />
+              </div>
+            </div>
           </div>
+        </div>
+
+        <div class="modal-footer w-100 justify-content-around">
+          <button id="offerFormBackButton" type="button" class="btn btn-secondary font-weight-bold w-25"
+            data-bs-dismiss="modal" title="Descarta alterações">
+            VOLTAR
+          </button>
+          <button id="offerFormSaveButton" type="button" class="btn btn-success font-weight-bold w-25"
+            data-bs-dismiss="modal" title="Salva/atualiza e copia o texto (se ativa)">
+            SALVAR
+          </button>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- required -->
-    <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+  <!-- required -->
+  <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
 
-    <!-- requirement for button icons -->
-    <script
-      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-      crossorigin="anonymous"
-    ></script>
+  <!-- requirement for button icons -->
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
 
-    <!-- required -->
-    <script src="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.js"></script>
-    <script src="extensions/filter-control/bootstrap-table-filter-control.min.js"></script>
+  <!-- required -->
+  <script src="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.js"></script>
+  <script src="extensions/filter-control/bootstrap-table-filter-control.min.js"></script>
 
-    <!-- bootstrap bundle with popper required for modal actions -->
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-      crossorigin="anonymous"
-    ></script>
+  <!-- bootstrap bundle with popper required for modal actions -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+    crossorigin="anonymous"></script>
 
-    <script src="main.js"></script>
-  </body>
+  <script src="main.js"></script>
+</body>
+
 </html>

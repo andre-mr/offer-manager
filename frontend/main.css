@@ -51,3 +51,18 @@ body {
 .search {
   margin-right: 5%;
 }
+
+.link-disabled{
+  pointer-events: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+img, img:active, img:focus {
+  border-color: gainsboro;
+  font-style: italic;
+  font-size: small;
+  color: gray;
+}

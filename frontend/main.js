@@ -27,6 +27,9 @@ const offerFormLink = document.getElementById("offerFormLink");
 const offerFormContent = document.getElementById("offerFormContent");
 const offerFormCreation = document.getElementById("offerFormCreation");
 const offerFormUtilization = document.getElementById("offerFormUtilization");
+const offerFormImage = document.getElementById("offerFormImage");
+const offerFormInputImage = document.getElementById("offerFormInputImage");
+const offerFormImageLink = document.getElementById("offerFormImageLink");
 const screenContainer = document.getElementById("screenContainer");
 
 const urlDomain = "http://localhost:3000";
@@ -41,6 +44,7 @@ const checkedColumns = {
   creation: false,
   utilization: true,
   uses: false,
+  // image: true,
 };
 
 let resultContent = [];
@@ -51,6 +55,7 @@ let storeList = [];
 let removingOffer = 0;
 let generalColumnAlign = "center";
 let cardViewStatus = false;
+let imageFile, imageName;
 
 window.addEventListener("load", () => {
   startup();
@@ -70,6 +75,8 @@ function startup() {
   offerFormSaveButton.addEventListener("click", saveOffer);
   offerFormRemoveButton.addEventListener("click", removeOffer);
 
+  offerFormInputImage.addEventListener("change", handleImageFile)
+
   apiKey = localStorage.getItem("APIKEY");
 
   if (apiKey) {
@@ -77,6 +84,50 @@ function startup() {
     populateTable();
   } else {
     showLogin(true);
+  }
+}
+
+function getOfferImage(offer) {
+  fetch(`${urlDomain}/getimage?apiKey=${apiKey}&id=${offer.id}`)
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      if (data.length > 0 && data[0] == "password") {
+        console.log("Senha inválida!");
+        return false;
+      } else {
+        if (data.length > 0 && data[0].image && selectedOffer && selectedOffer.id && (selectedOffer.id == offer.id)) {
+          offerFormImage.src = data[0].image;
+          offerFormImageLink.href = data[0].image;
+          offerFormImageLink.download = data[0].filename;
+          offerFormImageLink.classList.remove("link-disabled");
+          selectedOffer.image = data[0].image;
+          selectedOffer.filename = data[0].filename;
+        } else {
+          console.log("Imagem não encontrada!");
+        }
+      }
+    })
+    .catch(function (err) {
+      console.log("Something went wrong!", err);
+    });
+}
+
+function handleImageFile(e) {
+  if (e.target.files && e.target.files.length > 0) {
+    let file = e.target.files[0];
+    let fileReader = new FileReader();
+    imageName = (file.name.length <= 250) ? file.name : (file.name.substring(0, 5) + '.' + file.name?.match(/([^.]*$)/)[0]);
+
+    fileReader.onloadend = () => {
+      imageFile = fileReader.result;
+      offerFormImageLink.href = imageFile;
+      offerFormImageLink.download = imageName;
+      offerFormImageLink.classList.remove("link-disabled");
+    }
+    fileReader.readAsDataURL(file);
+    offerFormImage.src = URL.createObjectURL(file);
   }
 }
 
@@ -215,6 +266,7 @@ function populateTable() {
         resultContent = data;
         createContentTable();
         populateStoreList();
+        resultContent = null;
 
         $(".toggle-all").on("click", () => {
           if (!$(".toggle-all").prop("checked")) {
@@ -335,6 +387,17 @@ function populateStoreList() {
 }
 
 function showOfferForm(offer) {
+  offerFormInputImage.value = "";
+  offerFormImageLink.href = "";
+  offerFormImageLink.download = "";
+  offerFormImageLink.classList.add("link-disabled");
+  imageFile = null;
+  imageName = null;
+
+
+  offerFormImage.src = offer.image ? offer.image : "";
+  offerFormInputImage.files[0] = null;
+
   if (window.screen.height < 800) {
     offerFormDescription.rows = "1";
     offerFormContent.rows = "9";
@@ -426,6 +489,7 @@ function showOfferForm(offer) {
     offerFormCreation.value = selectedOffer.creation.replace(" ", "T");
     offerFormUtilization.value = selectedOffer.utilization.replace(" ", "T");
 
+    getOfferImage(offer);
     // new
   } else {
     selectedOffer = new Offer();
@@ -507,6 +571,10 @@ function saveOffer() {
       selectedOffer.content = offerFormContent.value;
     }
     selectedOffer.creation = offerFormCreation.value.replace("T", " ");
+    selectedOffer.image = imageFile;
+    selectedOffer.filename = imageName;
+    imageFile = null;
+    imageName = null;
 
     // set today's date
     let today = new Date();
@@ -750,12 +818,41 @@ function createContentTable() {
           sortable: "true",
           filterControl: "input",
           visible: checkedColumns.uses,
-        },
+        },/* 
+        {
+          // field: "id",
+          field: "image",
+          title: "Foto",
+          width: 10,
+          align: "center",
+          // sortable: "false",
+          filterControl: "false",
+          formatter: "imageFormatter",
+          visible: checkedColumns.image,
+        }, */
       ],
       data: resultContent,
     });
   fixFooter();
+  // showImages(resultContent);
 }
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+/* 
+async function showImages(resultContent) {
+  await sleep(1000);
+  const tBody = contentTable.querySelector("tbody")
+  for (row of tBody.children) {
+    const imgElement = document.createElement("img");
+    imgElement.style = "height: 50px";
+    imgElement.src = resultContent[0].image;
+    row.children[0].appendChild(imgElement);
+  }
+}
+ */
 
 function dateSorter(a, b) {
   if (
@@ -825,6 +922,15 @@ function detailFormatter(index, row) {
   showOfferForm(editingOffer);
 }
 
+/* 
+function imageFormatter(value) {
+  // return '<div style="visibility: hidden">'
+  //   + value
+  //   + '</div>'
+  return value ? '<img style="height: 50px" src=' + value + '></img>' : '<img style="height: 50px" src=></img>';
+}
+ */
+
 function headerStyle(column) {
   return {
     id: {
@@ -853,7 +959,10 @@ function headerStyle(column) {
     },
     uses: {
       css: { background: "azure", "font-size": "large" },
-    },
+    },/* 
+    image: {
+      css: { "vertical-align": "middle", background: "azure", "font-size": "large" },
+    }, */
   }[column.field];
 }
 
@@ -888,5 +997,7 @@ function Offer() {
     this.content,
     this.creation,
     this.utilization,
-    this.uses;
+    this.uses,
+    this.image,
+    this.filename;
 }

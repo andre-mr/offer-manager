@@ -16,6 +16,14 @@ async function getActiveOfferList() {
   }
 }
 
+async function getOfferImage(id) {
+  try {
+    return await offerDb.getOfferImage(id);
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}
+
 async function addOffer(offer) {
   try {
     return await offerDb.addOffer(offer);
@@ -46,4 +54,5 @@ module.exports = {
   addOffer,
   updateOffer,
   deleteOffer,
+  getOfferImage,
 };

@@ -14,13 +14,19 @@ async function getActiveOfferList() {
     `SELECT id, active, store, description, link, content, 
     DATE_FORMAT(CONVERT_TZ(offer.creation, '+00:00', '${process.env.TIME_ZONE}'), '%d/%m/%Y %H:%i') AS creation, 
     DATE_FORMAT(CONVERT_TZ(offer.utilization, '+00:00', '${process.env.TIME_ZONE}'), '%d/%m/%Y %H:%i') AS utilization, 
-    uses FROM offer WHERE active=1;`
+    uses, image FROM offer WHERE active=1;`
+  );
+}
+
+async function getOfferImage(id) {
+  return sqlSelect(
+    `SELECT id, image, filename FROM offer WHERE id = ${id};`
   );
 }
 
 async function addOffer(offer) {
   return await sqlInsert(
-    `INSERT INTO offer (active, store, description, link, content, creation, utilization, uses) VALUES (?) `,
+    `INSERT INTO offer (active, store, description, link, content, creation, utilization, uses, image, filename) VALUES (?) `,
     [
       offer.active,
       offer.store,
@@ -30,12 +36,14 @@ async function addOffer(offer) {
       offer.creation,
       offer.utilization,
       offer.uses,
+      offer.image,
+      offer.filename,
     ]
   );
 }
 
 async function updateOffer(offer) {
-  let sql = `UPDATE offer SET active=?, store=?, description=?, link=?, content=?, creation=?, utilization=?, uses=? WHERE id=? `;
+  let sql = `UPDATE offer SET active=?, store=?, description=?, link=?, content=?, creation=?, utilization=?, uses=?, image=?, filename=? WHERE id=? `;
   let values = [
     offer.active,
     offer.store,
@@ -45,6 +53,8 @@ async function updateOffer(offer) {
     offer.creation,
     offer.utilization,
     offer.uses,
+    offer.image,
+    offer.filename,
     offer.id,
   ];
   return await sqlUpdateOrDelete(sql, values);
@@ -115,4 +125,5 @@ module.exports = {
   addOffer,
   updateOffer,
   deleteOffer,
+  getOfferImage,
 };

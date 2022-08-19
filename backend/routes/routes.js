@@ -23,6 +23,8 @@ function setupRoutes(app) {
 
   app.get("/listactive", offerController.getActiveOfferList);
 
+  app.get("/getimage", offerController.getOfferImage);
+
   app.post("/add", offerController.addOffer);
 
   app.put("/update", offerController.updateOffer);
